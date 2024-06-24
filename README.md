@@ -11,6 +11,7 @@ Welcome to the Discordle repository! This bot allows users to play the popular w
 - Make guesses and receive feedback
 - Color-coded responses indicating correct and incorrect letters
 - End an ongoing game
+- Get help with bot commands
 
 ## Installation
 
@@ -57,6 +58,7 @@ Welcome to the Discordle repository! This bot allows users to play the popular w
 - `/startwordle` - Starts a new Wordle game.
 - `/guess <word>` - Makes a guess for the Wordle game.
 - `/endwordle` - Ends the current Wordle game.
+- `/helpwordle` - Get help with the Wordle bot commands.
 
 ### Example
 
