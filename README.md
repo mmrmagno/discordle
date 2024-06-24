@@ -1,6 +1,6 @@
-# Wordle Discord Bot
+# Discordle
 
-Welcome to the Wordle Discord Bot repository! This bot allows users to play the popular word guessing game, Wordle, directly in a Discord chat.
+Welcome to Discordle the Wordle Discord Bot repository! This bot allows users to play the popular word guessing game, Wordle, directly in a Discord chat.
 
 ## Features
 
