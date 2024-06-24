@@ -1,9 +1,9 @@
 # Discordle
-
-Welcome to Discordle the Wordle Discord Bot repository! This bot allows users to play the popular word guessing game, Wordle, directly in a Discord chat.
 ---
 
 ![Discordle](https://www.marc-os.com/discordle.webp)
+
+Welcome to the Discordle repository! This bot allows users to play the popular word guessing game, Wordle, directly in a Discord chat.
 
 ## Features
 
@@ -54,27 +54,27 @@ Welcome to Discordle the Wordle Discord Bot repository! This bot allows users to
 
 ### Commands
 
-- `!startwordle` - Starts a new Wordle game.
-- `!guess <word>` - Makes a guess for the Wordle game.
-- `!endwordle` - Ends the current Wordle game.
+- `/startwordle` - Starts a new Wordle game.
+- `/guess <word>` - Makes a guess for the Wordle game.
+- `/endwordle` - Ends the current Wordle game.
 
 ### Example
 
 1. Start a new game:
 
     ```
-    !startwordle
+    /startwordle
     ```
 
     The bot will respond:
     ```
-    Wordle game started! You have 6 attempts to guess the 5-letter word. Use `!guess <word>` to make a guess.
+    Wordle game started! You have 6 attempts to guess the 5-letter word. Use `/guess <word>` to make a guess.
     ```
 
 2. Make a guess:
 
     ```
-    !guess apple
+    /guess apple
     ```
 
     The bot will respond with a formatted message showing the result of your guess.
@@ -82,7 +82,7 @@ Welcome to Discordle the Wordle Discord Bot repository! This bot allows users to
 3. End the game:
 
     ```
-    !endwordle
+    /endwordle
     ```
 
     The bot will respond:
