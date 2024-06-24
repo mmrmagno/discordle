@@ -3,8 +3,6 @@ from discord.ext import commands
 from discord import app_commands
 import random
 import json
-from PIL import Image, ImageDraw, ImageFont
-import io
 
 # Load the token from the JSON config file
 with open('config.json', 'r') as config_file:
@@ -15,32 +13,17 @@ TOKEN = config['token']
 with open('words.txt', 'r') as word_file:
     WORDS = [line.strip() for line in word_file.readlines()]
 
-# Helper function to create an image for the guess
-def create_guess_image(guess, target):
-    # Create a blank image with white background
-    img = Image.new('RGB', (300, 60), color=(255, 255, 255))
-    draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("arial.ttf", 36)
-
-    x = 10
+# Helper function to format the wordle message
+def format_guess(guess, target):
+    formatted = ""
     for i, letter in enumerate(guess):
         if letter == target[i]:
-            color = (0, 128, 0)  # Green
+            formatted += f"🟩\u200B{letter.upper()}\u200B"
         elif letter in target:
-            color = (255, 215, 0)  # Yellow
+            formatted += f"🟨\u200B{letter.upper()}\u200B"
         else:
-            color = (128, 128, 128)  # Gray
-
-        # Draw rectangle and letter
-        draw.rectangle([x, 10, x + 50, 60], fill=color)
-        draw.text((x + 15, 15), letter.upper(), font=font, fill=(255, 255, 255))
-        x += 60
-
-    # Save the image to a BytesIO object
-    image_stream = io.BytesIO()
-    img.save(image_stream, format='PNG')
-    image_stream.seek(0)
-    return image_stream
+            formatted += f"⬜\u200B{letter.upper()}\u200B"
+    return formatted
 
 class WordleGame:
     def __init__(self, target_word):
@@ -50,7 +33,7 @@ class WordleGame:
 
     def make_guess(self, guess):
         self.guesses.append(guess)
-        return create_guess_image(guess, self.target_word)
+        return format_guess(guess, self.target_word)
 
     def is_correct(self, guess):
         return guess == self.target_word
@@ -96,25 +79,19 @@ async def make_guess(interaction: discord.Interaction, guess: str):
 
     game = games[interaction.user.id]
     guess = guess.lower()
-    image_stream = game.make_guess(guess)
+    response = game.make_guess(guess)
 
     if game.is_correct(guess):
         embed = discord.Embed(title="Congratulations!", description=f"You guessed the word: **{guess.upper()}**", color=discord.Color.gold())
         await interaction.response.send_message(embed=embed)
-        file = discord.File(fp=image_stream, filename="guess.png")
-        await interaction.followup.send(file=file)
         del games[interaction.user.id]
     elif game.out_of_attempts():
         embed = discord.Embed(title="Game Over", description=f"Sorry, you're out of attempts! The word was: **{game.target_word.upper()}**", color=discord.Color.red())
         await interaction.response.send_message(embed=embed)
-        file = discord.File(fp=image_stream, filename="guess.png")
-        await interaction.followup.send(file=file)
         del games[interaction.user.id]
     else:
-        embed = discord.Embed(title="Guess", description=f"Attempts left: {game.attempts - len(game.guesses)}", color=discord.Color.blue())
-        file = discord.File(fp=image_stream, filename="guess.png")
+        embed = discord.Embed(title="Guess", description=f"{response}\nAttempts left: {game.attempts - len(game.guesses)}", color=discord.Color.blue())
         await interaction.response.send_message(embed=embed)
-        await interaction.followup.send(file=file)
 
 @tree.command(name='endwordle', description='End the current Wordle game')
 async def end_wordle(interaction: discord.Interaction):
